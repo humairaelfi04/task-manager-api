@@ -1,0 +1,5 @@
+{
+  "title": "Task 1: Setup Jenkins Pipeline",
+  "description": "Configure multi-stage Jenkinsfile for Podman",
+  "status": "IN_PROGRESS"
+}

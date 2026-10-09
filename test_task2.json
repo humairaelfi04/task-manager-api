@@ -1,0 +1,5 @@
+{
+    "title": "Setup Jenkinsfile CI/CD",
+    "description": "Buat 4-stage pipeline untuk automasi build dan deploy",
+    "status": "IN_PROGRESS"
+}
