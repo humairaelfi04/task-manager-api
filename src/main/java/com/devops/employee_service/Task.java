@@ -25,6 +25,9 @@ public class Task {
     @Column(nullable = false)
     private String status; // e.g. PENDING, IN_PROGRESS, COMPLETED
 
+    @Column(nullable = false)
+    private String priority; // LOW, MEDIUM, HIGH
+
     private LocalDateTime dueDate;
 
     private LocalDateTime createdAt;
@@ -34,6 +37,9 @@ public class Task {
         this.createdAt = LocalDateTime.now();
         if (this.status == null) {
             this.status = "PENDING";
+        }
+        if (this.priority == null) {
+            this.priority = "LOW";
         }
     }
 }

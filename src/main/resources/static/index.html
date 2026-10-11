@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +32,7 @@
             color: var(--text-main);
             min-height: 100vh;
             padding: 2rem 1rem;
-            background-image: 
+            background-image:
                 radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
         }
@@ -113,7 +114,7 @@
 
         .form-row {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 2fr 1fr 1fr;
             gap: 1rem;
         }
 
@@ -233,6 +234,29 @@
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
+        .priority-LOW {
+            background: rgba(148, 163, 184, 0.2);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+        }
+
+        .priority-MEDIUM {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .priority-HIGH {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-COMPLETED_DUPLICATE {
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
         .task-actions {
             display: flex;
             gap: 0.5rem;
@@ -253,6 +277,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -267,7 +292,8 @@
             <form id="createTaskForm">
                 <div class="form-group">
                     <label for="title">Judul Task</label>
-                    <input type="text" id="title" class="form-control" placeholder="Contoh: Deploy Aplikasi ke Podman" required>
+                    <input type="text" id="title" class="form-control" placeholder="Contoh: Deploy Aplikasi ke Podman"
+                        required>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
@@ -275,11 +301,19 @@
                         <input type="text" id="description" class="form-control" placeholder="Deskripsi singkat tugas">
                     </div>
                     <div class="form-group">
-                        <label for="status">Status Initial</label>
+                        <label for="status">Status</label>
                         <select id="status" class="form-control">
                             <option value="PENDING">PENDING</option>
                             <option value="IN_PROGRESS">IN_PROGRESS</option>
                             <option value="COMPLETED">COMPLETED</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="priority">Priority</label>
+                        <select id="priority" class="form-control">
+                            <option value="LOW">LOW</option>
+                            <option value="MEDIUM">MEDIUM</option>
+                            <option value="HIGH">HIGH</option>
                         </select>
                     </div>
                 </div>
@@ -291,7 +325,8 @@
         <div class="card">
             <div class="task-list-header">
                 <h2>Daftar Task (<span id="taskCount">0</span>)</h2>
-                <button onclick="loadTasks()" class="btn" style="width: auto; padding: 0.4rem 1rem; font-size: 0.85rem;">🔄 Refresh</button>
+                <button onclick="loadTasks()" class="btn"
+                    style="width: auto; padding: 0.4rem 1rem; font-size: 0.85rem;">🔄 Refresh</button>
             </div>
             <div id="taskList">
                 <div class="empty-state">
@@ -308,7 +343,7 @@
             try {
                 const res = await fetch(API_URL);
                 const tasks = await res.json();
-                
+
                 document.getElementById('taskCount').innerText = tasks.length;
                 const container = document.getElementById('taskList');
 
@@ -325,7 +360,7 @@
                 container.innerHTML = tasks.map(task => `
                     <div class="task-item">
                         <div class="task-info">
-                            <h3>${escapeHtml(task.title)} <span class="status-badge status-${task.status}">${task.status}</span></h3>
+                            <h3>${escapeHtml(task.title)} <span class="status-badge status-${task.status}">${task.status}</span> <span class="status-badge priority-${task.priority || 'LOW'}">${task.priority || 'LOW'}</span></h3>
                             <p>${escapeHtml(task.description || 'Tidak ada deskripsi')}</p>
                         </div>
                         <div class="task-actions">
@@ -346,12 +381,13 @@
             const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
             const status = document.getElementById('status').value;
+            const priority = document.getElementById('priority').value;
 
             try {
                 const res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ title, description, status })
+                    body: JSON.stringify({ title, description, status, priority })
                 });
 
                 if (res.ok) {
@@ -395,4 +431,5 @@
         loadTasks();
     </script>
 </body>
+
 </html>

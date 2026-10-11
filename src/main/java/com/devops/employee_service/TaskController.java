@@ -51,6 +51,9 @@ public class TaskController {
                     if (taskDetails.getDueDate() != null) {
                         task.setDueDate(taskDetails.getDueDate());
                     }
+                    if (taskDetails.getPriority() != null) {
+                        task.setPriority(taskDetails.getPriority());
+                    }
                     Task updatedTask = taskRepository.save(task);
                     return ResponseEntity.ok(updatedTask);
                 })
