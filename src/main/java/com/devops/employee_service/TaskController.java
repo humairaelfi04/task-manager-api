@@ -54,6 +54,9 @@ public class TaskController {
                     if (taskDetails.getPriority() != null) {
                         task.setPriority(taskDetails.getPriority());
                     }
+                    if (taskDetails.getAssignee() != null) {
+                        task.setAssignee(taskDetails.getAssignee());
+                    }
                     Task updatedTask = taskRepository.save(task);
                     return ResponseEntity.ok(updatedTask);
                 })

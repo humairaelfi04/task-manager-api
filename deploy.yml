@@ -1,0 +1,26 @@
+---
+- name: Deploy Task Manager API with Podman
+  hosts: localhost
+  connection: local
+  vars:
+    podman_cmd: /mnt/c/Users/USER/AppData/Local/Programs/Podman/podman.exe
+    win_project_dir: "D:/DevOpsProjects/employee-service"
+
+  tasks:
+    - name: Stop and remove old container
+      command: "{{ podman_cmd }} rm -f task-api-1"
+      ignore_errors: yes
+
+    - name: Build new container image
+      command: "{{ podman_cmd }} build -t task-manager-api:latest {{ win_project_dir }}"
+
+    - name: Run new container
+      command: "{{ podman_cmd }} run -d -p 8080:8080 --name task-api-1 task-manager-api:latest"
+
+    - name: Verify container is running
+      command: "{{ podman_cmd }} ps"
+      register: container_status
+
+    - name: Show running containers
+      debug:
+        msg: "{{ container_status.stdout }}"

@@ -28,6 +28,8 @@ public class Task {
     @Column(nullable = false)
     private String priority; // LOW, MEDIUM, HIGH
 
+    private String assignee; // Nama orang yang bertanggung jawab atas task ini
+
     private LocalDateTime dueDate;
 
     private LocalDateTime createdAt;

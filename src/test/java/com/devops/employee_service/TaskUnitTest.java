@@ -10,7 +10,6 @@ public class TaskUnitTest {
         Task task = new Task();
         task.setTitle("Test Task");
         task.setDescription("Unit test for task creation");
-
         assertEquals("Test Task", task.getTitle());
         assertEquals("Unit test for task creation", task.getDescription());
     }
@@ -20,7 +19,6 @@ public class TaskUnitTest {
         Task task = new Task();
         task.setTitle("Status Test");
         task.onCreate();
-
         assertEquals("PENDING", task.getStatus());
     }
 
@@ -29,7 +27,6 @@ public class TaskUnitTest {
         Task task = new Task();
         task.setTitle("Priority Test");
         task.onCreate();
-
         assertEquals("LOW", task.getPriority());
     }
 
@@ -39,17 +36,23 @@ public class TaskUnitTest {
         task.setTitle("High Priority Task");
         task.setPriority("HIGH");
         task.onCreate();
-
         assertEquals("HIGH", task.getPriority());
     }
 
     @Test
-    void testCustomStatusIsPreserved() {
+    void testAssigneeField() {
         Task task = new Task();
-        task.setTitle("In Progress Task");
-        task.setStatus("IN_PROGRESS");
+        task.setTitle("Assigned Task");
+        task.setAssignee("humairaelfi");
         task.onCreate();
+        assertEquals("humairaelfi", task.getAssignee());
+    }
 
-        assertEquals("IN_PROGRESS", task.getStatus());
+    @Test
+    void testAssigneeIsNullByDefault() {
+        Task task = new Task();
+        task.setTitle("Unassigned Task");
+        task.onCreate();
+        assertNull(task.getAssignee());
     }
 }

@@ -295,6 +295,10 @@
                     <input type="text" id="title" class="form-control" placeholder="Contoh: Deploy Aplikasi ke Podman"
                         required>
                 </div>
+                <div class="form-group">
+                    <label for="assignee">Assignee (Penanggung Jawab)</label>
+                    <input type="text" id="assignee" class="form-control" placeholder="Contoh: humairaelfi">
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="description">Deskripsi</label>
@@ -361,7 +365,7 @@
                     <div class="task-item">
                         <div class="task-info">
                             <h3>${escapeHtml(task.title)} <span class="status-badge status-${task.status}">${task.status}</span> <span class="status-badge priority-${task.priority || 'LOW'}">${task.priority || 'LOW'}</span></h3>
-                            <p>${escapeHtml(task.description || 'Tidak ada deskripsi')}</p>
+                            <p>${escapeHtml(task.description || 'Tidak ada deskripsi')} ${task.assignee ? '— 👤 <strong>' + escapeHtml(task.assignee) + '</strong>' : ''}</p>
                         </div>
                         <div class="task-actions">
                             ${task.status !== 'COMPLETED' ? `
@@ -382,12 +386,13 @@
             const description = document.getElementById('description').value;
             const status = document.getElementById('status').value;
             const priority = document.getElementById('priority').value;
+            const assignee = document.getElementById('assignee').value;
 
             try {
                 const res = await fetch(API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ title, description, status, priority })
+                    body: JSON.stringify({ title, description, status, priority, assignee })
                 });
 
                 if (res.ok) {
